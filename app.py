@@ -78,7 +78,41 @@ class Tune(Resource):
         theta = w -np.array((.05/len(X))*((X.T).dot(theOut)),dtype=float)
         return {'data':list(theta)}, 200  # return data with 200 OK
     # methods go here
-    pass      
+    pass
+class Predict(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()  # initialize
+        
+        parser.add_argument('weights', required=True)  # add args
+        parser.add_argument('rest', required=True)  # add args
+        args = parser.parse_args()  # parse arguments to dictionary
+        h = f(np.array(args['rest'].split(','),dtype=float),np.array(args['weights'].split(','),dtype=float))
+        return {'data':h}, 200  # return data with 200 OK
+    # methods go here
+    pass
+class BestMatch(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()  # initialize
+        
+        parser.add_argument('weights', required=True)  # add args
+        parser.add_argument('rests', required=True)  # add args
+        parser.add_argument('Ids', required=True)  # add args
+
+        args = parser.parse_args()  # parse arguments to dictionary
+        resturs = np.array(args['rest'].split(';'),dtype=str)
+        weights =np.array(args['weights'].split(','),dtype=float)
+        ids = np.array(args['Ids'].split(','),dtype=int)
+        spade = []
+        for i in range(len(resturs)):
+          res = np.array(resturs[i].split(','),dtype = float)
+          id = ids[i]
+          pred = f(res,weights)
+          spade.append((pred,id))
+        foo = [spade]
+        foo.sort(key=lambda x:x[0])
+        return {'data':foo}, 200  # return data with 200 OK
+    # methods go here
+    pass        
 class Locations(Resource):
     # methods go here
     pass
