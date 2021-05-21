@@ -57,7 +57,7 @@ class Gradient(Resource):
         parser.add_argument('y_train', required=True)  # add args
         args = parser.parse_args()  # parse arguments to dictionary
 
-        weights,losses,deltas = kecks_gradient(np.array(args['X_train'].split(','),dtype=float)), np.array(args['y_train'].split(','),dtype=float)),np.array(args['weights'].split(','),dtype=float)), .006,500,0.0000000101)   
+        weights,losses,deltas = kecks_gradient(np.array(args['X_train'].split(','),dtype=float), np.array(args['y_train'].split(','),dtype=float),np.array(args['weights'].split(','),dtype=float), .006,500,0.0000000101)   
 
         return {'data':list(weights)}, 200  # return data with 200 OK
     # methods go here
